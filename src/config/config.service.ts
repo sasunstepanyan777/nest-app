@@ -22,7 +22,12 @@ export class ConfigService {
       NODE_ENV: string()
         .valid('development', 'production', 'test', 'provision')
         .default('development'),
-      PORT: number().default(3000)
+      PORT: number().default(3000),
+      DATABASE_HOST: string().required(),
+      DATABASE_PORT: number().required(),
+      DATABASE_USERNAME: string().required(),
+      DATABASE_PASSWORD: string().allow(''),
+      DATABASE_NAME: string().required()
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
