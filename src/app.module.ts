@@ -4,12 +4,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Modules
 import { ConfigModule } from './config/config.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 // Controllers
 import { AppController } from './app.controller';
 
 // Providers
 import { AppService } from './app.service';
+
+// Entities
+import { UserEntity } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -21,9 +26,11 @@ import { AppService } from './app.service';
       username: 'root',
       password: '',
       database: 'nest-app',
-      entities: [],
+      entities: [UserEntity],
       synchronize: true,
     }),
+    AuthModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
