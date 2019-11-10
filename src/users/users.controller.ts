@@ -18,8 +18,8 @@ export class UsersController {
     private readonly usersService: UsersService
   ) { }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get('profile')
+  @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'User profile', type: ProfileDto })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })

@@ -23,10 +23,10 @@ export class AuthController {
     return this.authService.signup(body);
   }
 
+  @Post('login')
   @ApiCreatedResponse({ description: 'Signed in', type: LoginedDto })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
-  @Post('login')
   public login(@Body() body: UserLoginDto): Promise<LoginedDto> {
     return this.authService.login(body);
   }
