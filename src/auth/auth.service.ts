@@ -43,14 +43,19 @@ export class AuthService {
   }
 
   public async signup(userData: CreateUserDto): Promise<RegisteredDto> {
-    const user = await this.usersService.findByEmail(userData.email);
-    if (!user) {
-      const userToSave = new UserEntity(userData);
-      userToSave.password = await hash(userData.password, 5);
-      await this.usersService.addUser(userToSave);
-      return {
-        message: 'You have successfully registered!'
-      };
+    try {
+      const user = await this.usersService.findByEmail(userData.email);
+      if (!user) {
+        const userToSave = new UserEntity(userData);
+        userToSave.password = await hash(userData.password, 5);
+        await this.usersService.addUser(userToSave);
+        return {
+          message: 'You have successfully registered!'
+        };
+      }
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException();
     }
     throw new BadRequestException('User with this email is already exists');
   }

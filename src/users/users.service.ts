@@ -1,5 +1,5 @@
 // Packages
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -31,8 +31,16 @@ export class UsersService extends BaseService<UserEntity> {
   }
 
   public async getProfile(id: number): Promise<ProfileDto> {
-    const user = await this.findById(id);
-    const { password, ...userData} = user;
-    return userData;
+    try {
+      const user = await this.findById(id);
+      if(user) {
+        const { password, ...userData} = user;
+        return userData;
+      }
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException();
+    }
+    throw new NotFoundException();
   }
 }

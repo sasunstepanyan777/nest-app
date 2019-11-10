@@ -19,7 +19,7 @@ export class AuthController {
   @Post('signup')
   @ApiCreatedResponse({ description: 'Signed up', type: RegisteredDto })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
-  addUser(@Body() body: CreateUserDto): Promise<RegisteredDto> {
+  public addUser(@Body() body: CreateUserDto): Promise<RegisteredDto> {
     return this.authService.signup(body);
   }
 
@@ -27,7 +27,7 @@ export class AuthController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @Post('login')
-  public async login(@Body() body: UserLoginDto): Promise<LoginedDto> {
+  public login(@Body() body: UserLoginDto): Promise<LoginedDto> {
     return this.authService.login(body);
   }
 }

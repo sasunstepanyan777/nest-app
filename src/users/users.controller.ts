@@ -24,7 +24,7 @@ export class UsersController {
   @ApiOkResponse({ description: 'User profile', type: ProfileDto })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  getProfile(@Req() req: Request): Promise<ProfileDto> {
+  public getProfile(@Req() req: Request): Promise<ProfileDto> {
     return this.usersService.getProfile((req.user as any).id);
   }
 }
