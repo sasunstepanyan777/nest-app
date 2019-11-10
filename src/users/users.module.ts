@@ -25,6 +25,4 @@ import { UserEntity } from './entities/user.entity';
     UsersService
   ]
 })
-export class UsersModule {
-
-}
+export class UsersModule {}
