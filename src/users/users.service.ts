@@ -1,3 +1,4 @@
+// Packages
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -5,19 +6,33 @@ import { Repository } from 'typeorm';
 // Entities
 import { UserEntity } from './entities/user.entity';
 
+// Providers
+import { BaseService } from '../shared/base.service';
+
+// Dto
+import { ProfileDto } from './dto/profile.dto';
+
 @Injectable()
-export class UsersService {
+export class UsersService extends BaseService<UserEntity> {
 
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
-  ) {}
+  ) {
+    super(userRepository);
+  }
 
   public async findByEmail(email: string): Promise<UserEntity> {
-    return this.userRepository.findOne({email});
+    return this.findOne({email});
   }
 
   public async addUser(user: UserEntity): Promise<UserEntity> {
     return this.userRepository.save(user);
+  }
+
+  public async getProfile(id: number): Promise<ProfileDto> {
+    const user = await this.findById(id);
+    const { password, ...userData} = user;
+    return userData;
   }
 }

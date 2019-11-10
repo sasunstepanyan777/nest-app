@@ -7,12 +7,6 @@ import { ConfigModule } from './config/config.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
-// Controllers
-import { AppController } from './app.controller';
-
-// Providers
-import { AppService } from './app.service';
-
 // Entities
 import { UserEntity } from './users/entities/user.entity';
 
@@ -31,8 +25,6 @@ import { UserEntity } from './users/entities/user.entity';
     }),
     AuthModule,
     UsersModule
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+  ]
 })
 export class AppModule {}

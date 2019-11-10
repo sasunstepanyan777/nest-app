@@ -1,22 +1,30 @@
 // Packages
-import { Controller, UseGuards, Get, Request } from '@nestjs/common';
+import { Controller, UseGuards, Get, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiUseTags, ApiBearerAuth, ApiInternalServerErrorResponse, ApiUnauthorizedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Request } from 'express';
 
 // Providers
 import { UsersService } from './users.service';
+
+// Dto
+import { ProfileDto } from './dto/profile.dto';
 
 @ApiUseTags('users')
 @Controller('users')
 export class UsersController {
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService
+  ) { }
 
   @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth()
   @Get('profile')
-  getProfile(@Request() req) {
-    // return req.user;
-    console.log(req.user);
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: 'User profile', type: ProfileDto })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  getProfile(@Req() req: Request): Promise<ProfileDto> {
+    return this.usersService.getProfile((req.user as any).id);
   }
 }

@@ -14,7 +14,7 @@ import { LoginedDto } from './dto/logined.dto';
 @ApiUseTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('signup')
   @ApiCreatedResponse({ description: 'Signed up', type: RegisteredDto })
