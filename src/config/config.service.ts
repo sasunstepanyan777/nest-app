@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { parse } from 'dotenv';
 import { ObjectSchema, object, string, number } from '@hapi/joi';
 
-export type EnvConfig = Record<string, string>;
+export type EnvConfig = Record<string, string | number>;
 
 export class ConfigService {
   private readonly envConfig: EnvConfig;
@@ -13,7 +13,7 @@ export class ConfigService {
     this.envConfig = this.validateInput(config);
   }
 
-  get(key: string): string {
+  get(key: string): string | number {
     return this.envConfig[key];
   }
 

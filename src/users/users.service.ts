@@ -22,14 +22,6 @@ export class UsersService extends BaseService<UserEntity> {
     super(userRepository);
   }
 
-  public async findByEmail(email: string): Promise<UserEntity> {
-    return this.findOne({email});
-  }
-
-  public async addUser(user: UserEntity): Promise<UserEntity> {
-    return this.userRepository.save(user);
-  }
-
   public async getProfile(id: number): Promise<ProfileDto> {
     try {
       const user = await this.findById(id);

@@ -27,7 +27,7 @@ export class AuthService {
 
   public async login(userData: IUserBasic): Promise<LoginedDto> {
     try {
-      const user = await this.usersService.findByEmail(userData.email);
+      const user = await this.usersService.findOne({email: userData.email});
       if (user && await compare(userData.password, user.password)) {
         const payload = new TokenPayloadModel(user.id, user.email);
         return {
@@ -44,11 +44,11 @@ export class AuthService {
 
   public async signup(userData: CreateUserDto): Promise<RegisteredDto> {
     try {
-      const user = await this.usersService.findByEmail(userData.email);
+      const user = await this.usersService.findOne({email: userData.email});
       if (!user) {
         const userToSave = new UserEntity(userData);
         userToSave.password = await hash(userData.password, 5);
-        await this.usersService.addUser(userToSave);
+        await this.usersService.add(userToSave);
         return {
           message: 'You have successfully registered!'
         };

@@ -3,14 +3,19 @@ import { Module } from '@nestjs/common';
 
 // Providers
 import { ConfigService } from './config.service';
+import { DatabaseConfigService } from './database-config.service';
 
 @Module({
   providers: [
+    DatabaseConfigService,
     {
       provide: ConfigService,
-      useValue: new ConfigService(`${process.env.NODE_ENV || 'development'}.env`),
+      useFactory: (): ConfigService => {
+        const env = process.env.NODE_ENV || 'development';
+        return new ConfigService(`${env}.env`);
+      }
     },
   ],
-  exports: [ConfigService],
+  exports: [ConfigService, DatabaseConfigService],
 })
 export class ConfigModule {}
