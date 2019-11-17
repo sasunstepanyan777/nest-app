@@ -1,11 +1,12 @@
 // Packages
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 
 // Providers
 import { ConfigService } from './config.service';
 import { DatabaseConfigService } from './database-config.service';
 import { JWTConfigService } from './jwt-config.service';
 
+@Global()
 @Module({
   providers: [
     DatabaseConfigService,

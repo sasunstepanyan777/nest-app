@@ -4,7 +4,6 @@ import { Module } from '@nestjs/common';
 // Modules
 import { JWTModule } from './jwt.module';
 import { UsersModule } from '../users/users.module';
-import { ConfigModule } from '../config/config.module';
 
 // Providers
 import { AuthService } from './auth.service';
@@ -16,7 +15,6 @@ import { AuthController } from './auth.controller';
 @Module({
   imports: [
     UsersModule,
-    ConfigModule,
     JWTModule
   ],
   providers: [
