@@ -1,4 +1,8 @@
+// Packages
 import { ApiModelProperty } from '@nestjs/swagger';
+
+// Models
+import { IAttachment } from '../../attachments/models/attachment.model';
 
 export class ProfileDto {
   @ApiModelProperty()
@@ -9,4 +13,8 @@ export class ProfileDto {
 
   @ApiModelProperty()
   username: string;
+
+  @ApiModelProperty()
+  photo: IAttachment;
+  
 }

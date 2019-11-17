@@ -1,3 +1,6 @@
+// Models
+import { IAttachment } from '../../attachments/models/attachment.model';
+
 export interface IUserBasic {
   readonly id?: number;
   readonly email: string;
@@ -6,4 +9,5 @@ export interface IUserBasic {
 
 export interface IUser extends IUserBasic {
   username: string;
+  photo?: IAttachment;
 }

@@ -8,16 +8,22 @@ import { UserEntity } from './entities/user.entity';
 
 // Providers
 import { BaseService } from '../shared/base.service';
+import { AttachmentsService } from '../attachments/attachments.service';
+
+// Models
+import { IUploadedFile } from '../attachments/models/uploaded-file.model';
 
 // Dto
 import { ProfileDto } from './dto/profile.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class UsersService extends BaseService<UserEntity> {
 
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
+    private readonly userRepository: Repository<UserEntity>,
+    private readonly attachmentsService: AttachmentsService
   ) {
     super(userRepository);
   }
@@ -34,5 +40,15 @@ export class UsersService extends BaseService<UserEntity> {
       throw new InternalServerErrorException();
     }
     throw new NotFoundException();
+  }
+
+  public async putProfile(userId: number, file: IUploadedFile, data: UpdateProfileDto): Promise<ProfileDto> {
+    const photo = await this.attachmentsService.addAttachment(file);
+    const user = await this.findById(userId);
+    user.photo = photo;
+    user.username = data.username;
+    await this.update(userId, user);
+    const {password, ...userData} = user;
+    return userData;
   }
 }
