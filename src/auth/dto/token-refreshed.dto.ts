@@ -1,13 +1,10 @@
 // Packages
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class LoginedDto {
-  @ApiModelProperty()
-  access_token: string;
-
+export class TokenRefreshedDto {
   @ApiModelProperty()
   refresh_token: string;
 
   @ApiModelProperty()
-  username: string;
+  access_token: string;
 }

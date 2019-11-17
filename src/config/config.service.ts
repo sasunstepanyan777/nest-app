@@ -3,8 +3,6 @@ import { readFileSync } from 'fs';
 import { parse } from 'dotenv';
 import { ObjectSchema, object, string, number } from '@hapi/joi';
 
-import { ConfigEnum } from './config.enum';
-
 export type EnvConfig = Record<string, string | number>;
 
 export interface IConfig {
@@ -17,6 +15,7 @@ export interface IConfig {
   DATABASE_NAME: string;
   JWT_SIGN_ALGORITHM: string;
   JWT_EXPIRE: string | number;
+  JWT_REFRESH_EXPIRE: string | number;
 }
 
 export class ConfigService {
@@ -44,6 +43,7 @@ export class ConfigService {
       DATABASE_NAME: string().required().default('nest-app'),
       JWT_SIGN_ALGORITHM: string().required().valid('RS256', 'HS256').default('RS256'),
       JWT_EXPIRE: string().required().default('1h'),
+      JWT_REFRESH_EXPIRE: string().required().default('1.5h')
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
