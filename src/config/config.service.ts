@@ -7,19 +7,31 @@ import { ConfigEnum } from './config.enum';
 
 export type EnvConfig = Record<string, string | number>;
 
+export interface IConfig {
+  NODE_ENV: string;
+  PORT: number;
+  DATABASE_HOST: string;
+  DATABASE_PORT: number;
+  DATABASE_USERNAME: string;
+  DATABASE_PASSWORD: string;
+  DATABASE_NAME: string;
+  JWT_SIGN_ALGORITHM: string;
+  JWT_EXPIRE: string | number;
+}
+
 export class ConfigService {
-  private readonly envConfig: EnvConfig;
+  private readonly envConfig: IConfig;
 
   constructor(filePath: string) {
     const config = parse(readFileSync(filePath));
     this.envConfig = this.validateInput(config);
   }
 
-  get(key: ConfigEnum): string | number {
+  public get<K extends keyof IConfig>(key: K): IConfig[K] {
     return this.envConfig[key];
   }
 
-  private validateInput(envConfig: EnvConfig): EnvConfig {
+  private validateInput(envConfig: EnvConfig): IConfig {
     const envVarsSchema: ObjectSchema = object({
       NODE_ENV: string()
         .valid('development', 'test', 'production')
@@ -38,6 +50,6 @@ export class ConfigService {
     if (error) {
       throw new Error(`Config validation error: ${error.message}`);
     }
-    return validatedEnvConfig;
+    return validatedEnvConfig as IConfig;
   }
 }

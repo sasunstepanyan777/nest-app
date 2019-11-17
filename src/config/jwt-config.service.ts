@@ -20,7 +20,7 @@ export class JWTConfigService implements JwtOptionsFactory {
       publicKey: this.extractKey('public'),
       privateKey: this.extractKey('private'),
       signOptions: {
-        algorithm: this.configService.get(ConfigEnum.JWT_SIGN_ALGORITHM) as string,
+        algorithm: this.configService.get(ConfigEnum.JWT_SIGN_ALGORITHM),
         expiresIn: this.configService.get(ConfigEnum.JWT_EXPIRE),
       }
     };

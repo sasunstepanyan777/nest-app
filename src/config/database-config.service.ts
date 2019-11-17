@@ -16,11 +16,11 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
   public createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
       type: 'mysql',
-      host: this.configService.get(ConfigEnum.DATABASE_HOST) as string,
-      port: this.configService.get(ConfigEnum.DATABASE_PORT) as number,
-      username: this.configService.get(ConfigEnum.DATABASE_USERNAME) as string,
-      password: this.configService.get(ConfigEnum.DATABASE_PASSWORD) as string,
-      database: this.configService.get(ConfigEnum.DATABASE_NAME) as string,
+      host: this.configService.get(ConfigEnum.DATABASE_HOST),
+      port: this.configService.get(ConfigEnum.DATABASE_PORT),
+      username: this.configService.get(ConfigEnum.DATABASE_USERNAME),
+      password: this.configService.get(ConfigEnum.DATABASE_PASSWORD),
+      database: this.configService.get(ConfigEnum.DATABASE_NAME),
       entities: [process.cwd(), '**/*.entity.{js, ts}'],
       synchronize: true,
     };
