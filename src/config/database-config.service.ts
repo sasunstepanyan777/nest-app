@@ -5,6 +5,9 @@ import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
 // Providers
 import { ConfigService } from './config.service';
 
+// Config
+import { ConfigEnum } from './config.enum';
+
 @Injectable()
 export class DatabaseConfigService implements TypeOrmOptionsFactory {
 
@@ -13,12 +16,12 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
   public createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
       type: 'mysql',
-      host: this.configService.get('DATABASE_HOST') as string,
-      port: this.configService.get('DATABASE_PORT') as number,
-      username: this.configService.get('DATABASE_USERNAME') as string,
-      password: this.configService.get('DATABASE_PASSWORD') as string,
-      database: this.configService.get('DATABASE_NAME') as string,
-      entities: [__dirname, '**/*.entity.js'],
+      host: this.configService.get(ConfigEnum.DATABASE_HOST) as string,
+      port: this.configService.get(ConfigEnum.DATABASE_PORT) as number,
+      username: this.configService.get(ConfigEnum.DATABASE_USERNAME) as string,
+      password: this.configService.get(ConfigEnum.DATABASE_PASSWORD) as string,
+      database: this.configService.get(ConfigEnum.DATABASE_NAME) as string,
+      entities: [process.cwd(), '**/*.entity.{js, ts}'],
       synchronize: true,
     };
   }

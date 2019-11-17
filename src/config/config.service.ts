@@ -3,6 +3,8 @@ import { readFileSync } from 'fs';
 import { parse } from 'dotenv';
 import { ObjectSchema, object, string, number } from '@hapi/joi';
 
+import { ConfigEnum } from './config.enum';
+
 export type EnvConfig = Record<string, string | number>;
 
 export class ConfigService {
@@ -13,21 +15,23 @@ export class ConfigService {
     this.envConfig = this.validateInput(config);
   }
 
-  get(key: string): string | number {
+  get(key: ConfigEnum): string | number {
     return this.envConfig[key];
   }
 
   private validateInput(envConfig: EnvConfig): EnvConfig {
     const envVarsSchema: ObjectSchema = object({
       NODE_ENV: string()
-        .valid('development', 'production', 'test', 'provision')
+        .valid('development', 'test', 'production')
         .default('development'),
       PORT: number().default(3000),
-      DATABASE_HOST: string().required(),
-      DATABASE_PORT: number().required(),
-      DATABASE_USERNAME: string().required(),
-      DATABASE_PASSWORD: string().allow(''),
-      DATABASE_NAME: string().required()
+      DATABASE_HOST: string().required().default('localhost'),
+      DATABASE_PORT: number().required().default(3306),
+      DATABASE_USERNAME: string().required().default('root'),
+      DATABASE_PASSWORD: string().allow('').default(''),
+      DATABASE_NAME: string().required().default('nest-app'),
+      JWT_SIGN_ALGORITHM: string().required().valid('RS256', 'HS256').default('RS256'),
+      JWT_EXPIRE: string().required().default('1h'),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);

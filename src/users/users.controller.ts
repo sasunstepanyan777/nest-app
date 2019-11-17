@@ -10,6 +10,9 @@ import { UsersService } from './users.service';
 // Dto
 import { ProfileDto } from './dto/profile.dto';
 
+// Models
+import { IUser } from './models/user.model';
+
 @ApiUseTags('users')
 @Controller('users')
 export class UsersController {
@@ -25,6 +28,6 @@ export class UsersController {
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   public getProfile(@Req() req: Request): Promise<ProfileDto> {
-    return this.usersService.getProfile((req.user as any).id);
+    return this.usersService.getProfile((req.user as IUser).id);
   }
 }

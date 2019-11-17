@@ -10,6 +10,7 @@ import { initializeSwagger } from './swagger';
 
 // Config
 import { ConfigService } from './config/config.service';
+import { ConfigEnum } from './config/config.enum';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,7 +19,8 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  const port = app.get(ConfigService).get('PORT');
-  await app.listen(port);
+  const PORT = app.get(ConfigService).get(ConfigEnum.PORT);
+  await app.listen(PORT);
+  console.log(`Server is listening on http://localhost:${PORT}`);
 }
 bootstrap();

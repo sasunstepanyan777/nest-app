@@ -7,7 +7,7 @@ import { compare, hash } from 'bcrypt';
 import { UsersService } from '../users/users.service';
 
 // Models
-import { IUserBasic } from '../users/models/user.model';
+import { IUserBasic, IUser } from '../users/models/user.model';
 import { TokenPayloadModel } from './models/token-payload.model';
 
 // Entities
@@ -58,5 +58,9 @@ export class AuthService {
       throw new InternalServerErrorException();
     }
     throw new BadRequestException('User with this email is already exists');
+  }
+
+  public async validateUser(id: number): Promise<IUser> {
+    return this.usersService.findById(id);
   }
 }
