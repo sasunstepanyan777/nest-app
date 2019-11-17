@@ -43,6 +43,7 @@ export class UsersService extends BaseService<UserEntity> {
   }
 
   public async putProfile(userId: number, file: IUploadedFile, data: UpdateProfileDto): Promise<ProfileDto> {
+    console.log(file);
     const photo = await this.attachmentsService.addAttachment(file);
     const user = await this.findById(userId);
     user.photo = photo;

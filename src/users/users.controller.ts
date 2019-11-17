@@ -36,10 +36,10 @@ export class UsersController {
 
   @Put('profile')
   @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(FileInterceptor('photo'))
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
   @ApiImplicitFile({ name: 'photo', required: true })
-  @UseInterceptors(FileInterceptor('photo'))
   @ApiOkResponse({ description: 'User profile', type: ProfileDto })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
