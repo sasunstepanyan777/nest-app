@@ -10,16 +10,24 @@ export abstract class BaseService<E> {
     protected readonly repository: Repository<E>
   ) { }
 
-  public async findOne(params?: Partial<E>): Promise<E> {
-    return this.repository.findOne(params);
+  public async findOne(params?: Partial<E>, relations?: string[]): Promise<E> {
+    return this.repository.findOne({
+      ...params,
+      relations
+    });
   }
 
-  public async findAll(params?: Partial<E>): Promise<E[]> {
-    return this.repository.find(params);
+  public async findAll(params?: Partial<E>, relations?: string[]): Promise<E[]> {
+    return this.repository.find({
+      ...params,
+      relations
+    });
   }
 
-  public async findById(id: number): Promise<E> {
-    return this.repository.findOne(id);
+  public async findById(id: number, relations?: string[]): Promise<E> {
+    return this.repository.findOne(id, {
+      relations
+    });
   }
 
   public async add(data: E): Promise<E> {

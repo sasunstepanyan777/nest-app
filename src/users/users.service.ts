@@ -30,7 +30,7 @@ export class UsersService extends BaseService<UserEntity> {
 
   public async getProfile(id: number): Promise<ProfileDto> {
     try {
-      const user = await this.findById(id);
+      const user = await this.findById(id, ['photo']);
       if (user) {
         const { password, ...userData} = user;
         return userData;
