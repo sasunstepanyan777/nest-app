@@ -1,5 +1,5 @@
 // Packages
-import { Injectable, UnauthorizedException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
@@ -28,10 +28,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     try {
       const user = await this.authService.validateUser(payload.userId);
       if (!user) {
-        throw new UnauthorizedException();
+        return null;
       }
       return user;
-    } catch {
+    } catch (err) {
+      console.log(err);
       throw new InternalServerErrorException();
     }
   }
