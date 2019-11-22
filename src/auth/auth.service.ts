@@ -1,5 +1,5 @@
 // Packages
-import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, BadRequestException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
 import { TokenExpiredError, JsonWebTokenError } from 'jsonwebtoken';
@@ -47,7 +47,7 @@ export class AuthService {
       console.log(err);
       throw new InternalServerErrorException();
     }
-    throw new BadRequestException('Invalid email or password');
+    throw new UnauthorizedException('Invalid email or password');
   }
 
   public async signup(userData: CreateUserDto): Promise<RegisteredDto> {
